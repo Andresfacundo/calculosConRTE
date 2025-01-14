@@ -37,48 +37,48 @@
 
 // ----------------------------------------------
 
-// const { calcularSalud, calcularPension, calcularParafiscales, calcularPrestaciones, calcularAuxilioTransporte, calculaRteen } = require('../utils/formulas');
+const { calcularSalud, calcularPension, calcularParafiscales, calcularPrestaciones, calcularAuxilioTransporte, calculaRteen } = require('../utils/formulas');
 
-// exports.realizarCalculo = (req, res) => {
-//   try {
-//     const { salario, auxTransporte, auxAlimentacion, retencion, tipoSalario } = req.body;
+exports.realizarCalculo = (req, res) => {
+  try {
+    const { salario, auxTransporte, auxAlimentacion, retencion, tipoSalario } = req.body;
 
-//     // Validar entrada
-//     if (!salario || typeof salario !== 'number') {
-//       return res.status(400).json({ error: 'El salario es requerido y debe ser un número.' });
-//     }
+    // Validar entrada
+    if (!salario || typeof salario !== 'number') {
+      return res.status(400).json({ error: 'El salario es requerido y debe ser un número.' });
+    }
 
-//     // Cálculos de seguridad social
-//     const saludEmpleado = calcularSalud(salario, 'empleado');
-//     const saludEmpleador = calcularSalud(salario, 'empleador');
-//     const pensionEmpleado = calcularPension(salario, 'empleado');
-//     const pensionEmpleador = calcularPension(salario, 'empleador');
+    // Cálculos de seguridad social
+    const saludEmpleado = calcularSalud(salario, 'empleado');
+    const saludEmpleador = calcularSalud(salario, 'empleador');
+    const pensionEmpleado = calcularPension(salario, 'empleado');
+    const pensionEmpleador = calcularPension(salario, 'empleador');
 
-//     // Cálculos de parafiscales
-//     const parafiscales = calcularParafiscales(salario);
+    // Cálculos de parafiscales
+    const parafiscales = calcularParafiscales(salario);
 
-//     // Cálculos de prestaciones sociales
-//     const prestaciones = calcularPrestaciones(salario, tipoSalario);
+    // Cálculos de prestaciones sociales
+    const prestaciones = calcularPrestaciones(salario, tipoSalario);
 
-//     // Total deducciones y salario neto
-//     const totalDeducciones = saludEmpleado + pensionEmpleado + retencion;
-//     const salarioNeto = salario - totalDeducciones;
+    // Total deducciones y salario neto
+    const totalDeducciones = saludEmpleado + pensionEmpleado + retencion;
+    const salarioNeto = salario - totalDeducciones;
 
-//     // Resultado final
-//     const resultado = {
-//       salud: { empleado: saludEmpleado, empleador: saludEmpleador },
-//       pension: { empleado: pensionEmpleado, empleador: pensionEmpleador },
-//       parafiscales,
-//       prestaciones,
-//       totalDeducciones,
-//       salarioNeto,
-//     };
+    // Resultado final
+    const resultado = {
+      salud: { empleado: saludEmpleado, empleador: saludEmpleador },
+      pension: { empleado: pensionEmpleado, empleador: pensionEmpleador },
+      parafiscales,
+      prestaciones,
+      totalDeducciones,
+      salarioNeto,
+    };
 
-//     res.json(resultado);
-//   } catch (error) {
-//     res.status(500).json({ error: 'Ocurrió un error al realizar el cálculo.' });
-//   }
-// };
+    res.json(resultado);
+  } catch (error) {
+    res.status(500).json({ error: 'Ocurrió un error al realizar el cálculo.' });
+  }
+};
 
 // const { calcularSalud, calcularPension, calcularParafiscales, calcularPrestaciones } = require('../utils/formulas');
 

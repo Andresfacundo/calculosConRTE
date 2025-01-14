@@ -82,8 +82,8 @@
 
 // Constantes
 const SALARIO_MINIMO = 1423500;
-const SMLMV_4 = 5694000;
-const SMLMV_10 = 14235000;
+const SMLMV_4 = SALARIO_MINIMO * 4;
+const SMLMV_10 = SALARIO_MINIMO * 10;
 const AUX_TRANSPORTE = 200000;
 
 // Calcular auxilio de transporte
@@ -110,10 +110,12 @@ const calcularPension = (salarioBase, tipo) => {
 
 // Calcular aportes parafiscales
 const calcularParafiscales = (salarioBase) => {
-  const sena = salarioBase * 0.02; // SENA (2%)
-  const icbf = salarioBase * 0.03; // ICBF (3%)
-  const cajaCompensacion = salarioBase * 0.04; // Caja de compensación (4%)
-  return { sena, icbf, cajaCompensacion };
+  if(salarioBase >= SMLMV_10){
+    const sena = salarioBase * 0.02; // SENA (2%)
+    const icbf = salarioBase * 0.03; // ICBF (3%)
+    const cajaCompensacion = salarioBase * 0.04; // Caja de compensación (4%)
+    return { sena, icbf, cajaCompensacion };
+  }
 };
 
 // Calcular prestaciones sociales desglosadas
