@@ -46,7 +46,7 @@ app.post('/calcular', (req, res) => {
   ? 1.4 : (ratio > 18 && ratio <= 19) ? 1.6 : (ratio > 19 && ratio <= 20) 
   ? 1.8 : (ratio > 20) ? 2 : 0) / 100;
 
-  const saludEmpleador = salario + otrosPagosSalariales >= diezSMLMV ? 0.085 * ibc : 0;
+  const saludEmpleador = Math.round(salario + otrosPagosSalariales >= diezSMLMV ? 0.085 * ibc : 0);
   const saludTrabajador = ibc * 0.04;
   const pensionTrabajador = pensionado === 'No' ? ibc * 0.04 : 0;
   const pensionEmpleador = pensionado === 'No' ? ibc * 0.12 : 0;
