@@ -1,7 +1,7 @@
 // server.js
 const express = require("express");
 const cors = require("cors");
-const calculatorRoutes = require("./routes/calculatorRoutes");
+const calculatorRoutes = require("./src/routes/calculatorRoutes");
 
 const app = express();
 const PORT = 3000;
