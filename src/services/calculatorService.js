@@ -129,7 +129,7 @@ const constants = {
       seguridadSocial.pensionTrabajador +
       seguridadSocial.FSP;
   
-    const retencionFuente = 2000000;
+    const retencionFuente = 0
   
     const pagoNetoTrabajador = 
       salario +
