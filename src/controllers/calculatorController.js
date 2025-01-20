@@ -9,7 +9,9 @@ const calculateSalary = (req, res) => {
     otrosPagosNoSalariales,
     auxilioTransporte,
     auxilioAlimentacion,
-    pensionado
+    pensionado,
+    deducciones,
+    retencionFuente
   } = req.body;
 
   const result = calculatorService.calculateSalaryDetails({
@@ -19,7 +21,9 @@ const calculateSalary = (req, res) => {
     otrosPagosNoSalariales,
     auxilioTransporte,
     auxilioAlimentacion,
-    pensionado
+    pensionado,
+    deducciones,
+    retencionFuente
   });
 
   res.json(result);

@@ -10,40 +10,39 @@ const constants = {
     otrosPagosSalariales,
     otrosPagosNoSalariales,
     auxilioTransporte,
-    auxilioAlimentacion,
-    pensionado
+    pensionado,
+    deducciones = 0,
+    retencionFuente = 0
   }) => {
   
   
-    const totalRemuneracion = calculateTotalRemuneracion(tipoSalario, salario, otrosPagosSalariales, otrosPagosNoSalariales, auxilioAlimentacion);
+    const totalRemuneracion = calculateTotalRemuneracion(tipoSalario, salario, otrosPagosSalariales, otrosPagosNoSalariales, );
     const cuarentaPorciento = totalRemuneracion * 0.4;
-    const excedente = calculateExcedente(otrosPagosNoSalariales, auxilioAlimentacion, cuarentaPorciento);
+    const excedente = calculateExcedente(otrosPagosNoSalariales, cuarentaPorciento);
     const ibc = calculateIBC(tipoSalario, salario, otrosPagosSalariales, excedente);
     
-    const seguridadSocial = calculateSeguridadSocial(ibc, salario, otrosPagosSalariales, pensionado);
+    const seguridadSocial = calculateSeguridadSocial(ibc, salario, otrosPagosSalariales, pensionado,excedente);
     const prestacionesSociales = calculatePrestacionesSociales(tipoSalario, salario, otrosPagosSalariales, auxilioTransporte);
-    const proyecciones = calculateProyecciones(seguridadSocial, prestacionesSociales, salario, otrosPagosSalariales, otrosPagosNoSalariales, auxilioTransporte, auxilioAlimentacion);
+    const proyecciones = calculateProyecciones(seguridadSocial, prestacionesSociales, salario, otrosPagosSalariales, otrosPagosNoSalariales, auxilioTransporte,deducciones,retencionFuente);
   
     return {
       totalRemuneracion,
       cuarentaPorciento,
-      excedente,
-      ibc,
       seguridadSocial,
       prestacionesSociales,
       proyecciones,
     };
   };
   
-  function calculateTotalRemuneracion(tipoSalario, salario, otrosPagosSalariales, otrosPagosNoSalariales, auxilioAlimentacion) {
+  function calculateTotalRemuneracion(tipoSalario, salario, otrosPagosSalariales, otrosPagosNoSalariales) {
     return tipoSalario === 'integral'
-      ? otrosPagosSalariales + otrosPagosNoSalariales + auxilioAlimentacion + (salario * 0.7)
-      : salario + otrosPagosNoSalariales + otrosPagosSalariales + auxilioAlimentacion;
+      ? otrosPagosSalariales + otrosPagosNoSalariales + (salario * 0.7)
+      : salario + otrosPagosNoSalariales + otrosPagosSalariales;
   }
   
-  function calculateExcedente(otrosPagosNoSalariales, auxilioAlimentacion, cuarentaPorciento) {
-    return otrosPagosNoSalariales + auxilioAlimentacion - cuarentaPorciento > 0
-      ? otrosPagosNoSalariales + auxilioAlimentacion - cuarentaPorciento
+  function calculateExcedente(otrosPagosNoSalariales, cuarentaPorciento) {
+    return otrosPagosNoSalariales - cuarentaPorciento > 0
+      ? otrosPagosNoSalariales - cuarentaPorciento
       : 0;
   }
   
@@ -69,12 +68,14 @@ const constants = {
     return 0;
   }
   
-  function calculateSeguridadSocial(ibc, salario, otrosPagosSalariales, pensionado) {
+  function calculateSeguridadSocial(ibc, salario, otrosPagosSalariales, pensionado,excedente) {
     const diezSMLMV = constants.salarioMinimo * 10;
     const porcentajeFSP = calculateFSPPercentage(ibc);
   
     return {
       saludTrabajador: ibc * 0.04,
+      excedente,
+      ibc,
       saludEmpleador: Math.round(salario + otrosPagosSalariales >= diezSMLMV ? 0.085 * ibc : 0),
       pensionTrabajador: pensionado === 'No' ? ibc * 0.04 : 0,
       pensionEmpleador: pensionado === 'No' ? ibc * 0.12 : 0,
@@ -83,6 +84,7 @@ const constants = {
       sena: (salario + otrosPagosSalariales) >= diezSMLMV ? (salario + otrosPagosSalariales) * 0.02 : 0,
       icbf: (salario + otrosPagosSalariales) >= diezSMLMV ? (salario + otrosPagosSalariales) * 0.03 : 0,
       cajaCompensacion: (salario + otrosPagosSalariales) * 0.04
+     
     };
   }
   
@@ -107,7 +109,7 @@ const constants = {
     };
   }
   
-  function calculateProyecciones(seguridadSocial, prestacionesSociales, salario, otrosPagosSalariales, otrosPagosNoSalariales, auxilioTransporte, auxilioAlimentacion) {
+  function calculateProyecciones(seguridadSocial, prestacionesSociales, salario, otrosPagosSalariales, otrosPagosNoSalariales, auxilioTransporte,deducciones, retencionFuente) {
     const provisionesPrestacionesSociales = Math.round(
       prestacionesSociales.primaServicios +
       prestacionesSociales.cesantias +
@@ -129,16 +131,16 @@ const constants = {
       seguridadSocial.pensionTrabajador +
       seguridadSocial.FSP;
   
-    const retencionFuente = 0
+   
   
     const pagoNetoTrabajador = 
       salario +
       otrosPagosSalariales +
       otrosPagosNoSalariales +
-      auxilioAlimentacion +
       auxilioTransporte -
       aportesTrabajador -
-      retencionFuente;
+      retencionFuente -
+      deducciones;
   
     const costoTotalEmpleador =
       salario +
@@ -146,8 +148,7 @@ const constants = {
       otrosPagosNoSalariales +
       auxilioTransporte +
       provisionesPrestacionesSociales +
-      aportesEmpleador +
-      auxilioAlimentacion;
+      aportesEmpleador;
   
     const totalPagar = pagoNetoTrabajador + aportesTrabajador + aportesEmpleador;
   
@@ -159,6 +160,8 @@ const constants = {
       pagoNetoTrabajador,
       costoTotalEmpleador,
       totalPagar,
+      deducciones,
+      retencionFuente
     };
   }
   
