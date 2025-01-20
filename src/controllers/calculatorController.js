@@ -7,8 +7,6 @@ const calculateSalary = (req, res) => {
     salario,
     otrosPagosSalariales,
     otrosPagosNoSalariales,
-    auxilioTransporte,
-    auxilioAlimentacion,
     pensionado,
     deducciones,
     retencionFuente
@@ -19,8 +17,6 @@ const calculateSalary = (req, res) => {
     salario,
     otrosPagosSalariales,
     otrosPagosNoSalariales,
-    auxilioTransporte,
-    auxilioAlimentacion,
     pensionado,
     deducciones,
     retencionFuente

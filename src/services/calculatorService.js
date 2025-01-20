@@ -9,13 +9,15 @@ const constants = {
     salario,
     otrosPagosSalariales,
     otrosPagosNoSalariales,
-    auxilioTransporte,
     pensionado,
     deducciones = 0,
     retencionFuente = 0
   }) => {
-  
-  
+    
+    const auxilioTransporte = tipoSalario !== 'integral' && salario >= (constants.salarioMinimo * 2) 
+    ? constants.auxilioDeTransporte 
+    : 0;
+
     const totalRemuneracion = calculateTotalRemuneracion(tipoSalario, salario, otrosPagosSalariales, otrosPagosNoSalariales, );
     const cuarentaPorciento = totalRemuneracion * 0.4;
     const excedente = calculateExcedente(otrosPagosNoSalariales, cuarentaPorciento);
@@ -161,7 +163,8 @@ const constants = {
       costoTotalEmpleador,
       totalPagar,
       deducciones,
-      retencionFuente
+      retencionFuente,
+      auxilioTransporte
     };
   }
   
