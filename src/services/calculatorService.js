@@ -14,7 +14,7 @@ const constants = {
     retencionFuente = 0
   }) => {
     
-    const auxilioTransporte = tipoSalario !== 'integral' && salario >= (constants.salarioMinimo * 2) 
+    const auxilioTransporte =  salario <= (constants.salarioMinimo * 2) 
     ? constants.auxilioDeTransporte 
     : 0;
 
