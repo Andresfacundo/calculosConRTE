@@ -30,11 +30,23 @@ const constants = {
     const prestacionesSociales = calculatePrestacionesSociales(tipoSalario, salario, otrosPagosSalariales, auxilioTransporte);
     const proyecciones = calculateProyecciones(seguridadSocial, prestacionesSociales, salario, otrosPagosSalariales, otrosPagosNoSalariales, auxilioTransporte,deducciones,retencionFuente);
     return {
-      totalRemuneracion,
-      cuarentaPorciento,
-      seguridadSocial,
-      prestacionesSociales,
-      proyecciones,
+        totalRemuneracion,
+        cuarentaPorciento,
+        seguridadSocial,
+        prestacionesSociales,
+        proyecciones,
+      calculations : {
+        tipoSalario,
+        salario,
+        otrosPagosSalariales,
+        otrosPagosNoSalariales,
+        pensionado,
+        deducciones ,
+        retencionFuente,
+        exonerado
+
+      }
+
     };
   };
 
@@ -57,11 +69,11 @@ const constants = {
   }
   
   function calculateIBC(tipoSalario, salario, otrosPagosSalariales, excedente) {
-    if (tipoSalario === 'ordinario') {
+    if (tipoSalario === 'Ordinario') {
       return otrosPagosSalariales + salario + excedente;
-    } else if (tipoSalario === 'integral') {
+    } else if (tipoSalario === 'Integral') {
       return ((salario + otrosPagosSalariales) * 0.7) + excedente;
-    } else if (tipoSalario === 'medio tiempo') {
+    } else if (tipoSalario === 'Medio tiempo') {
       return constants.salarioMinimo;
     }
     return 0;
