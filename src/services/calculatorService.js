@@ -117,11 +117,9 @@ const constants = {
     });
 
     seguridadSocial.totalEmpleador =
-    seguridadSocial.saludTrabajador +
     seguridadSocial.saludEmpleador +
     seguridadSocial.cajaCompensacion +
     seguridadSocial.pensionEmpleador +
-    seguridadSocial.pensionTrabajador +
     seguridadSocial.FSP +
     seguridadSocial.sena +
     seguridadSocial.icbf +
