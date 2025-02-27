@@ -18,7 +18,7 @@ const constants = {
     const auxilioTransporte =  salario <= (constants.salarioMinimo * 2) 
     ? constants.auxilioDeTransporte 
     : 0;
-    const totalIngresos = salario + constants.auxilioDeTransporte + otrosPagosSalariales + otrosPagosNoSalariales;
+    const totalIngresos = salario + auxilioTransporte + otrosPagosSalariales + otrosPagosNoSalariales;
 
     const totalRemuneracion = calculateTotalRemuneracion(tipoSalario, salario, otrosPagosSalariales, otrosPagosNoSalariales, );
     const cuarentaPorciento = totalRemuneracion * 0.4;
