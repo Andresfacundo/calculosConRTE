@@ -18,6 +18,7 @@ const constants = {
     const auxilioTransporte =  salario <= (constants.salarioMinimo * 2) 
     ? constants.auxilioDeTransporte 
     : 0;
+    const totalIngresos = salario + constants.auxilioDeTransporte + otrosPagosSalariales + otrosPagosNoSalariales;
 
     const totalRemuneracion = calculateTotalRemuneracion(tipoSalario, salario, otrosPagosSalariales, otrosPagosNoSalariales, );
     const cuarentaPorciento = totalRemuneracion * 0.4;
@@ -36,6 +37,7 @@ const constants = {
         prestacionesSociales,
         proyecciones,
       calculations : {
+        totalIngresos,
         tipoSalario,
         salario,
         otrosPagosSalariales,
@@ -94,7 +96,7 @@ const constants = {
     const diezSMLMV = constants.salarioMinimo * 10;
     const porcentajeFSP = calculateFSPPercentage(ibc);
   
-    return roundValues({
+   const seguridadSocial = roundValues({
       saludTrabajador: ibc * 0.04,
       excedente,
       ibc,
@@ -110,8 +112,27 @@ const constants = {
       icbf: (ibc * aportesIcbf),
       // cajaCompensacion: (salario + otrosPagosSalariales) * 0.04
       cajaCompensacion: ibc * 0.04
-     
+
+      
     });
+
+    seguridadSocial.totalEmpleador =
+    seguridadSocial.saludTrabajador +
+    seguridadSocial.saludEmpleador +
+    seguridadSocial.cajaCompensacion +
+    seguridadSocial.pensionEmpleador +
+    seguridadSocial.pensionTrabajador +
+    seguridadSocial.FSP +
+    seguridadSocial.sena +
+    seguridadSocial.icbf +
+    seguridadSocial.riesgosLaborales;
+
+    seguridadSocial.totalTrabajador =
+    seguridadSocial.saludTrabajador +
+    seguridadSocial.pensionTrabajador ;
+ 
+
+    return seguridadSocial;
   }
   
   function calculatePrestacionesSociales(tipoSalario, salario, otrosPagosSalariales, auxilioTransporte) {
@@ -189,7 +210,6 @@ const constants = {
       aportesEmpleador,
       aportesTrabajador,
       retencionFuente,
-    
       pagoNetoTrabajador,
       costoTotalEmpleador,
       totalPagar,
