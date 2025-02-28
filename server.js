@@ -8,7 +8,7 @@ const PORT = process.env.PORT || 3000;
 
 
 app.use(cors({
-    origin: 'https://calculos-rte-frond-end.vercel.app',
+    origin: 'https://spontaneous-nasturtium-ce4949.netlify.app',
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization']
 }));
