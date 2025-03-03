@@ -59,7 +59,7 @@ const constants = {
 }
   
   function calculateTotalRemuneracion(tipoSalario, salario, otrosPagosSalariales, otrosPagosNoSalariales) {
-    return tipoSalario === 'integral'
+    return tipoSalario === 'Integral'
       ? otrosPagosSalariales + otrosPagosNoSalariales + (salario * 0.7)
       : salario + otrosPagosNoSalariales + otrosPagosSalariales;
   }
@@ -134,7 +134,7 @@ const constants = {
   }
   
   function calculatePrestacionesSociales(tipoSalario, salario, otrosPagosSalariales, auxilioTransporte) {
-    if (tipoSalario === 'integral') {
+    if (tipoSalario === 'Integral') {
       return roundValues({
         primaServicios: 0,
         cesantias: 0,
