@@ -118,9 +118,9 @@ const constants = {
       // cajaCompensacion: (salario + otrosPagosSalariales) * 0.04
       cajaCompensacion: ibc * 0.04
 
+
       
     });
-    console.log(claseRiesgo);
 
     seguridadSocial.totalEmpleador =
     seguridadSocial.saludEmpleador +
@@ -140,15 +140,15 @@ const constants = {
   }
 function getRiesgoLaboralPorcentaje(claseRiesgo) {
   switch (claseRiesgo) {
-    case 'I':
+    case '1':
       return 0.00522;
-    case 'II':
+    case '2':
       return 0.01044;
-    case 'III':
+    case '3':
       return 0.02436; 
-    case 'IV':
+    case '4':
       return 0.04350;
-    case 'V':
+    case '5':
       return 0.06960 ;    
     default:
       return 0.00522;
