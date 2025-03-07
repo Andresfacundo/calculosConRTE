@@ -12,7 +12,8 @@ const constants = {
     pensionado,
     deducciones = 0,
     retencionFuente = 0,
-    exonerado
+    exonerado,
+    claseRiesgo
   }) => {
     
     const auxilioTransporte =  salario <= (constants.salarioMinimo * 2) 
@@ -27,7 +28,7 @@ const constants = {
     const aportesSena = exonerado == 'Si' ? (ibc >= constants.salarioMinimo * 10 ? 0.02 : 0) : (exonerado == 'No' ? 0.02 : 0);
     const aportesIcbf = exonerado == 'Si' ? (ibc >= constants.salarioMinimo * 10 ? 0.03 : 0) : (exonerado == 'No' ? 0.03 : 0);
     const tasaSaludEmpleador = exonerado == 'Si' ? (ibc >= constants.salarioMinimo * 10 ? 0.085 : 0) : (exonerado == 'No' ? 0.085 : 0);
-    const seguridadSocial = calculateSeguridadSocial(ibc, salario, otrosPagosSalariales, pensionado,excedente,tasaSaludEmpleador,aportesSena,aportesIcbf);
+    const seguridadSocial = calculateSeguridadSocial(ibc, salario, otrosPagosSalariales, pensionado,excedente,tasaSaludEmpleador,aportesSena,aportesIcbf,claseRiesgo);
     const prestacionesSociales = calculatePrestacionesSociales(tipoSalario, salario, otrosPagosSalariales, auxilioTransporte);
     const proyecciones = calculateProyecciones(seguridadSocial, prestacionesSociales, salario, otrosPagosSalariales, otrosPagosNoSalariales, auxilioTransporte,deducciones,retencionFuente);
     return {
@@ -45,7 +46,8 @@ const constants = {
         pensionado,
         deducciones ,
         retencionFuente,
-        exonerado
+        exonerado,
+        claseRiesgo
 
       }
 
@@ -92,9 +94,11 @@ const constants = {
     return 0;
   }
   
-  function calculateSeguridadSocial(ibc, salario, otrosPagosSalariales, pensionado,excedente,tasaSaludEmpleador, aportesSena,aportesIcbf) {
+  function calculateSeguridadSocial(ibc, salario, otrosPagosSalariales, pensionado,excedente,tasaSaludEmpleador, aportesSena,aportesIcbf,claseRiesgo) {
     const diezSMLMV = constants.salarioMinimo * 10;
     const porcentajeFSP = calculateFSPPercentage(ibc);
+
+    const riesgoLaboralPorcentaje = getRiesgoLaboralPorcentaje(claseRiesgo);
   
    const seguridadSocial = roundValues({
       saludTrabajador: ibc * 0.04,
@@ -105,7 +109,8 @@ const constants = {
       pensionTrabajador: pensionado === 'No' ? ibc * 0.04 : 0,
       pensionEmpleador: pensionado === 'No' ? ibc * 0.12 : 0,
       FSP: pensionado === 'No' ? ibc * porcentajeFSP : 0,
-      riesgosLaborales: Math.ceil(ibc * 0.00522),
+      riesgosLaborales: Math.ceil(ibc * riesgoLaboralPorcentaje),
+      
       // sena: (salario + otrosPagosSalariales) >= diezSMLMV ? (salario + otrosPagosSalariales) * 0.02 : 0,
       sena: (ibc * aportesSena),
       // icbf: (salario + otrosPagosSalariales) >= diezSMLMV ? (salario + otrosPagosSalariales) * 0.03 : 0,
@@ -115,6 +120,7 @@ const constants = {
 
       
     });
+    console.log(claseRiesgo);
 
     seguridadSocial.totalEmpleador =
     seguridadSocial.saludEmpleador +
@@ -132,6 +138,24 @@ const constants = {
 
     return seguridadSocial;
   }
+function getRiesgoLaboralPorcentaje(claseRiesgo) {
+  switch (claseRiesgo) {
+    case 'I':
+      return 0.00522;
+    case 'II':
+      return 0.01044;
+    case 'III':
+      return 0.02436; 
+    case 'IV':
+      return 0.04350;
+    case 'V':
+      return 0.06960 ;    
+    default:
+      return 0.00522;
+ 
+  }
+  
+}
   
   function calculatePrestacionesSociales(tipoSalario, salario, otrosPagosSalariales, auxilioTransporte) {
     if (tipoSalario === 'Integral') {
@@ -202,6 +226,8 @@ const constants = {
   
     // const totalPagar = pagoNetoTrabajador + aportesTrabajador + aportesEmpleador;
     const totalPagar = costoTotalEmpleador - provisionesPrestacionesSociales;
+    
+    
   
     return {
       provisionesPrestacionesSociales,
