@@ -126,12 +126,12 @@ const constants = {
     seguridadSocial.saludEmpleador +
     seguridadSocial.cajaCompensacion +
     seguridadSocial.pensionEmpleador +
-    seguridadSocial.FSP +
     seguridadSocial.sena +
     seguridadSocial.icbf +
     seguridadSocial.riesgosLaborales;
-
+    
     seguridadSocial.totalTrabajador =
+    seguridadSocial.FSP +
     seguridadSocial.saludTrabajador +
     seguridadSocial.pensionTrabajador ;
  
