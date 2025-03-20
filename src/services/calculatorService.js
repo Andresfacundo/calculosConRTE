@@ -13,10 +13,11 @@ const constants = {
     deducciones = 0,
     retencionFuente = 0,
     exonerado,
-    claseRiesgo
+    claseRiesgo,
+    auxilioDeTransporte
   }) => {
     
-    const auxilioTransporte =  salario <= (constants.salarioMinimo * 2) 
+    const auxilioTransporte =   auxilioDeTransporte === "Si" && salario <= (constants.salarioMinimo * 2) 
     ? constants.auxilioDeTransporte 
     : 0;
     const totalIngresos = salario + auxilioTransporte + otrosPagosSalariales + otrosPagosNoSalariales;
@@ -47,7 +48,8 @@ const constants = {
         deducciones ,
         retencionFuente,
         exonerado,
-        claseRiesgo
+        claseRiesgo,
+        auxilioDeTransporte
 
       }
 

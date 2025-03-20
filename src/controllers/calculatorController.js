@@ -11,7 +11,8 @@ const calculateSalary = (req, res) => {
     deducciones,
     retencionFuente,
     exonerado,
-    claseRiesgo
+    claseRiesgo,
+    auxilioDeTransporte
   } = req.body;
 
   const result = calculatorService.calculateSalaryDetails({
@@ -23,7 +24,8 @@ const calculateSalary = (req, res) => {
     deducciones,
     retencionFuente,
     exonerado,
-    claseRiesgo
+    claseRiesgo,
+    auxilioDeTransporte
   });
 
   res.json(result);
