@@ -17,7 +17,7 @@ const constants = {
     auxilioDeTransporte
   }) => {
     
-    const auxilioTransporte =   auxilioDeTransporte === "Si" && salario <= (constants.salarioMinimo * 2) 
+    const auxilioTransporte =   auxilioDeTransporte === "Si" && salario + otrosPagosSalariales <= (constants.salarioMinimo * 2)
     ? constants.auxilioDeTransporte 
     : 0;
     const totalIngresos = salario + auxilioTransporte + otrosPagosSalariales + otrosPagosNoSalariales;
